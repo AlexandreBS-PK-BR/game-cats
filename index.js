@@ -1,13 +1,19 @@
 const cardWraps = document.querySelectorAll(".card_wrap");
 const cards = document.querySelectorAll(".card");
+const timers = document.querySelector(".timer");
 
 let hasFlippedCard = false;
 let lockBoard = false;
 let firstCard, secondCard;
+let matchPairnt = 0;
+let timerInterval;
+let seconds = 0;
 
 function flipCard() {
     if (lockBoard) return;
     if (this === firstCard) return;
+
+    startTimer();
 
     this.classList.add("open");
 
@@ -19,6 +25,23 @@ function flipCard() {
 
 secondCard = this;
 checkForMatch();
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        seconds++;
+        timers.textContent = formatTime(seconds);
+    }); 
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+function formatTime(time) {
+    const mim = Math.floor(time / 60);
+    const sec = time%60;
+return `${mim.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
 }
 
 function checkForMatch() {
@@ -34,6 +57,13 @@ function disableCards() {
     secondCard.classList.add("matched");
 
     resetBoard();
+    matchPairnt++;
+    if (matchPairnt === (cards.length / 2)) {
+        stopTimer();
+        setTimeout(() => {
+            alert("agua com gas");
+        }, 500);
+    }
 }
 
 function unflipCards() {
@@ -78,7 +108,6 @@ setTimeout(() => {
 cards.forEach(card => {
     card.addEventListener("click", flipCard);
 });
-
 
 
 
