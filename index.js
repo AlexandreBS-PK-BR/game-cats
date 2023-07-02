@@ -59,9 +59,9 @@ function disableCards() {
     resetBoard();
     matchPairnt++;
     if (matchPairnt === (cards.length / 2)) {
-        stopTimer();
         setTimeout(() => {
-            alert("agua com gas");
+            alert("Parabéns");
+            stopTimer();
         }, 500);
     }
 }
